@@ -1,0 +1,10 @@
+.ipynb_checkpoints/
+env/
+.env*
+!.env.example
+__pycache__/
+.DS_Store
+Untitled.ipynb
+build/
+celerybeat-schedule.db
+*.bak
