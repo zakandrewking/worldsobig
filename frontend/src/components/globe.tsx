@@ -2,6 +2,27 @@
 "use client";
 
 /**
+ * This uses ~ one third of a CPU core, so don't put it on the front page.
+ *
+ *    <span
+ *      className={scopeOne.className}
+ *      style={{
+ *        fontSize: "100px",
+ *        lineHeight: "88px",
+ *        padding: "4px",
+ *        textAlign: "center",
+ *        width: "100%",
+ *        fontWeight: "bold",
+ *        cursor: "all-scroll",
+ *      }}
+ *    >
+ *      Hello{" "}
+ *      <span style={{ whiteSpace: "pre" }}>
+ *        W<Globe />
+ *        rld
+ *      </span>
+ *    </span>
+ *
  * Adapted from: https://gist.github.com/ivyywang/7c94cb5a3accd9913263
  */
 

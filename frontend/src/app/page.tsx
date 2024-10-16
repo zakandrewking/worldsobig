@@ -1,7 +1,5 @@
 import { Scope_One } from "next/font/google";
 
-import Globe from "@/components/globe";
-
 const scopeOne = Scope_One({ subsets: ["latin"], weight: "400" });
 
 // 3d maps
@@ -18,8 +16,8 @@ export default function Home() {
       <span
         className={scopeOne.className}
         style={{
-          fontSize: "100px",
-          lineHeight: "88px",
+          fontSize: "20px",
+          lineHeight: "18px",
           padding: "4px",
           textAlign: "center",
           width: "100%",
@@ -27,11 +25,7 @@ export default function Home() {
           cursor: "all-scroll",
         }}
       >
-        Hello{" "}
-        <span style={{ whiteSpace: "pre" }}>
-          W<Globe />
-          rld
-        </span>
+        Hello World
       </span>
       <iframe
         width="100%"
