@@ -1,3 +1,9 @@
+import { Scope_One } from "next/font/google";
+
+import Globe from "@/components/globe";
+
+const scopeOne = Scope_One({ subsets: ["latin"], weight: "400" });
+
 // 3d maps
 // https://developers.google.com/maps/documentation/javascript/3d-maps-getting-started
 
@@ -9,16 +15,24 @@ if (!apiKey) {
 export default function Home() {
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <div
+      <span
+        className={scopeOne.className}
         style={{
-          padding: "2px",
-          fontFamily: "monospace",
+          fontSize: "100px",
+          lineHeight: "88px",
+          padding: "4px",
           textAlign: "center",
           width: "100%",
+          fontWeight: "bold",
+          cursor: "all-scroll",
         }}
       >
-        hello big world
-      </div>
+        Hello{" "}
+        <span style={{ whiteSpace: "pre" }}>
+          W<Globe />
+          rld
+        </span>
+      </span>
       <iframe
         width="100%"
         height="100%"
