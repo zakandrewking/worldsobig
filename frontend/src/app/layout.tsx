@@ -1,4 +1,13 @@
+"use client";
+
 import "./globals.css";
+
+import { APIProvider } from "@vis.gl/react-google-maps";
+
+const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+if (!apiKey) {
+  throw Error("Missing environment variable NEXT_PUBLIC_GOOGLE_MAPS_API_KEY");
+}
 
 export default function RootLayout({
   children,
@@ -6,8 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
+    <APIProvider apiKey={apiKey!}>
+      <html lang="en">
+        <body>{children}</body>
+      </html>
+    </APIProvider>
   );
 }
