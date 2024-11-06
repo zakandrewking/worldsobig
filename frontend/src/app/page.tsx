@@ -6,20 +6,23 @@
  * https://visgl.github.io/react-google-maps/examples/map-3d
  */
 
+import { ZoomIn, ZoomOut } from "lucide-react";
 import { Scope_One } from "next/font/google";
 import React from "react";
 
 import { Map, useMap } from "@vis.gl/react-google-maps";
 
+import SolarSystem from "@/components/solar-system/solar-system";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+// import {
+//   DropdownMenu,
+//   DropdownMenuContent,
+//   DropdownMenuItem,
+//   DropdownMenuLabel,
+//   DropdownMenuSeparator,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 
 const scopeOne = Scope_One({ subsets: ["latin"], weight: "400" });
 
@@ -31,6 +34,8 @@ const pov = {
   heading: 270,
   pitch: 0,
 };
+const minZoom = 0;
+const maxZoom = 21;
 
 export default function Home() {
   const map = useMap();
@@ -40,10 +45,19 @@ export default function Home() {
       panorama.setVisible(true);
       panorama.setPosition(position);
       panorama.setPov(pov);
+      panorama.setOptions({
+        fullscreenControl: false,
+        addressControl: false,
+        clickToGo: false,
+        enableCloseButton: false,
+        zoomControl: false,
+        panControl: false,
+      });
     }
   }, [map]);
-  const [open, setOpen] = React.useState(true);
+  // const [open, setOpen] = React.useState(true);
   const [zoom, setZoom] = React.useState(13);
+  const [showSolarSystem, setShowSolarSystem] = React.useState(false);
 
   React.useEffect(() => {
     if (map) {
@@ -75,21 +89,43 @@ export default function Home() {
           cursor: "all-scroll",
         }}
       >
-        Hello World
+        World So Big
       </span>
-      <Button
-        onClick={() => setZoom((z) => z + 1)}
-        className="fixed w-28 h-28 bottom-[130px] left-2 z-50"
-      >
-        In
-      </Button>
-      <Button
-        onClick={() => setZoom((z) => z - 1)}
-        className="fixed w-28 h-28 bottom-2 left-2 z-50"
-      >
-        Out
-      </Button>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <div className="fixed bottom-2 left-2 z-50 flex flex-col gap-2">
+        <Button
+          variant="outline"
+          size="iconUnsized"
+          onClick={() => {
+            if (showSolarSystem) {
+              setShowSolarSystem(false);
+            } else if (map && zoom < maxZoom) {
+              setZoom((z) => z + 1);
+            } else if (map && zoom >= maxZoom) {
+              map?.getStreetView().setVisible(true);
+            }
+          }}
+          className="w-20 h-20 border-4 border-black"
+        >
+          <ZoomIn size={48} strokeWidth={3} />
+        </Button>
+        <Button
+          variant="outline"
+          size="iconUnsized"
+          onClick={() => {
+            if (map?.getStreetView().getVisible()) {
+              map?.getStreetView().setVisible(false);
+            } else if (map?.getZoom() === minZoom) {
+              setShowSolarSystem(true);
+            } else if (map && zoom > minZoom) {
+              setZoom((z) => z - 1);
+            }
+          }}
+          className="w-20 h-20 border-4 border-black"
+        >
+          <ZoomOut size={48} strokeWidth={3} />
+        </Button>
+      </div>
+      {/* <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger>Open</DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -99,16 +135,28 @@ export default function Home() {
           <DropdownMenuItem>Team</DropdownMenuItem>
           <DropdownMenuItem>Subscription</DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
-      <div
-        id="map"
-        style={{
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <Map defaultZoom={13} defaultCenter={position}></Map>
-      </div>
+      </DropdownMenu> */}
+      {showSolarSystem ? (
+        <SolarSystem />
+      ) : (
+        <div
+          id="map"
+          style={{
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Map
+            defaultZoom={13}
+            defaultCenter={position}
+            fullscreenControl={false}
+            mapTypeControlOptions={{ mapTypeIds: [] }}
+            mapTypeId={"hybrid"}
+            rotateControl={false}
+            zoomControl={false}
+          ></Map>
+        </div>
+      )}
     </div>
   );
 }
